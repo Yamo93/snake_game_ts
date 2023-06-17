@@ -8,3 +8,5 @@ export function saveTheWorld(): string {
     return `Hurray, you just saved the world!`;
   }
 }
+
+console.log("snake game");
