@@ -11,7 +11,6 @@ function createCanvas(): HTMLCanvasElement {
 }
 
 const canvas = createCanvas();
-console.log("canv");
 
 const context = canvas.getContext("2d");
 if (!context) throw new Error("2d context missing");
