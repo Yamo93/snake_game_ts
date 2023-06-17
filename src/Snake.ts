@@ -24,6 +24,15 @@ export class Snake {
     return this._headY;
   }
 
+  private updatePosition() {
+    this._headX = this.headX + this.xVelocity;
+    this._headY = this.headY + this.yVelocity;
+  }
+
+  update() {
+    this.updatePosition();
+  }
+
   draw() {
     this.context.fillStyle = "orange";
     this.context.fillRect(
@@ -32,5 +41,25 @@ export class Snake {
       tileSize(this.canvas),
       tileSize(this.canvas)
     );
+  }
+
+  moveUp() {
+    this.yVelocity = -1;
+    this.xVelocity = 0;
+  }
+
+  moveDown() {
+    this.yVelocity = 1;
+    this.xVelocity = 0;
+  }
+
+  moveLeft() {
+    this.yVelocity = 0;
+    this.xVelocity = -1;
+  }
+
+  moveRight() {
+    this.yVelocity = 0;
+    this.xVelocity = 1;
   }
 }

@@ -1,3 +1,4 @@
+import { InputManager } from "./InputManager.js";
 import { Snake } from "./Snake.js";
 import { SNAKE_SPEED } from "./const.js";
 
@@ -16,6 +17,7 @@ if (!context) throw new Error("2d context missing");
 let lastRenderTime = 0;
 
 const snake = new Snake(canvas);
+const inputManager = new InputManager(snake);
 
 function gameLoop(currentRenderTime: number) {
   window.requestAnimationFrame(gameLoop);
@@ -30,8 +32,11 @@ function gameLoop(currentRenderTime: number) {
 }
 
 window.requestAnimationFrame(gameLoop);
+inputManager.handleKeyboardEvents();
 
-function update() {}
+function update() {
+  snake.update();
+}
 
 function draw() {
   clearScreen();
