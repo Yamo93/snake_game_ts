@@ -5,6 +5,6 @@ export function saveTheWorld(): string {
     return `Too late, world has already been saved!`;
   } else {
     isWorldSaved = true;
-    return `Hurray, you just saved the world`;
+    return `Hurray, you just saved the world!`;
   }
 }
