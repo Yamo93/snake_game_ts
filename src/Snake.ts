@@ -1,6 +1,8 @@
 import { TILE_COUNT } from "./const.js";
 import { tileSize } from "./utils.js";
 
+type MoveDirection = "up" | "down" | "left" | "right";
+
 export class Snake {
   private _headX = 10;
   private _headY = 10;
@@ -43,23 +45,26 @@ export class Snake {
     );
   }
 
-  moveUp() {
-    this.yVelocity = -1;
-    this.xVelocity = 0;
-  }
-
-  moveDown() {
-    this.yVelocity = 1;
-    this.xVelocity = 0;
-  }
-
-  moveLeft() {
-    this.yVelocity = 0;
-    this.xVelocity = -1;
-  }
-
-  moveRight() {
-    this.yVelocity = 0;
-    this.xVelocity = 1;
+  move(direction: MoveDirection) {
+    switch (direction) {
+      case "up":
+        this.yVelocity = -1;
+        this.xVelocity = 0;
+        break;
+      case "down":
+        this.yVelocity = 1;
+        this.xVelocity = 0;
+        break;
+      case "left":
+        this.yVelocity = 0;
+        this.xVelocity = -1;
+        break;
+      case "right":
+        this.yVelocity = 0;
+        this.xVelocity = 1;
+        break;
+      default:
+        throw new Error("Move direction not supported");
+    }
   }
 }

@@ -10,19 +10,17 @@ export class InputManager {
     window.addEventListener("keydown", (event) => {
       switch (event.key) {
         case "ArrowUp":
-          this.snake.moveUp();
+          this.snake.move("up");
           break;
         case "ArrowDown":
-          this.snake.moveDown();
+          this.snake.move("down");
           break;
         case "ArrowLeft":
-          this.snake.moveLeft();
+          this.snake.move("left");
           break;
         case "ArrowRight":
-          this.snake.moveRight();
+          this.snake.move("right");
           break;
-        default:
-          return;
       }
     });
   }
