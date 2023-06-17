@@ -1,4 +1,5 @@
-"use strict";
+import { Snake } from "./Snake.js";
+import { SNAKE_SPEED } from "./const.js";
 function createCanvas() {
     const canvas = document.createElement("canvas");
     canvas.setAttribute("width", "400");
@@ -7,9 +8,11 @@ function createCanvas() {
     return canvas;
 }
 const canvas = createCanvas();
-const SNAKE_SPEED = 2;
-const TILE_COUNT = 20;
+const context = canvas.getContext("2d");
+if (!context)
+    throw new Error("2d context missing");
 let lastRenderTime = 0;
+const snake = new Snake(canvas);
 function gameLoop(currentRenderTime) {
     window.requestAnimationFrame(gameLoop);
     const timeSinceLastRenderInSeconds = (currentRenderTime - lastRenderTime) / 1000;
@@ -23,6 +26,7 @@ window.requestAnimationFrame(gameLoop);
 function update() { }
 function draw() {
     clearScreen();
+    snake.draw();
 }
 function clearScreen() {
     const context = canvas.getContext("2d");
