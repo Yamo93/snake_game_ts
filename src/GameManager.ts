@@ -7,16 +7,13 @@ export class GameManager {
     private readonly snake: Snake,
     private readonly food: Food,
     private readonly canvas: HTMLCanvasElement,
-    private requestId = 0,
     private lastRenderTime = 0,
     private gameOver = false
   ) {}
 
   gameLoop(currentRenderTime: number) {
     if (this.gameOver) return;
-    this.requestId = window.requestAnimationFrame((time) =>
-      this.gameLoop(time)
-    );
+    window.requestAnimationFrame((time) => this.gameLoop(time));
     const timeSinceLastRenderInSeconds =
       (currentRenderTime - this.lastRenderTime) / 1000;
     if (timeSinceLastRenderInSeconds < 1 / SNAKE_SPEED) return;
@@ -73,9 +70,7 @@ export class GameManager {
   restartGame() {
     this.clearScreen();
     this.gameOver = false;
-    this.requestId = window.requestAnimationFrame((time) =>
-      this.gameLoop(time)
-    );
+    window.requestAnimationFrame((time) => this.gameLoop(time));
     this.lastRenderTime = 0;
     this.snake.reset();
   }

@@ -2,7 +2,6 @@ import { Food } from "./Food.js";
 import { GameManager } from "./GameManager.js";
 import { InputManager } from "./InputManager.js";
 import { Snake } from "./Snake.js";
-import { SNAKE_SPEED, TILE_COUNT } from "./const.js";
 
 function createCanvas(): HTMLCanvasElement {
   const canvas = document.createElement("canvas");
@@ -29,6 +28,7 @@ const food = new Food(canvas);
 const snake = new Snake(canvas);
 const inputManager = new InputManager(snake);
 const gameManager = new GameManager(snake, food, canvas);
+
 restartButton.addEventListener("click", () => gameManager.restartGame());
 window.requestAnimationFrame((time) => gameManager.gameLoop(time));
 inputManager.handleKeyboardEvents();
