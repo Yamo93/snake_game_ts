@@ -3,32 +3,30 @@ import { tileSize } from "./utils.js";
 
 type MoveDirection = "up" | "down" | "left" | "right";
 
+type Coordinates = { x: number; y: number };
+
+type Head = Coordinates;
+
+type Velocity = Coordinates;
+
 export class Snake {
-  private _headX = 10;
-  private _headY = 10;
-  private xVelocity = 0;
-  private yVelocity = 0;
+  private readonly head: Head;
+  private readonly velocity: Velocity;
   private readonly context: CanvasRenderingContext2D;
   private readonly canvas: HTMLCanvasElement;
 
   constructor(canvas: HTMLCanvasElement) {
+    this.head = { x: 10, y: 10 };
+    this.velocity = { x: 0, y: 0 };
     this.canvas = canvas;
     const context = this.canvas.getContext("2d");
     if (!context) throw new Error("2d context missing");
     this.context = context;
   }
 
-  get headX() {
-    return this._headX;
-  }
-
-  get headY() {
-    return this._headY;
-  }
-
   private updatePosition() {
-    this._headX = this.headX + this.xVelocity;
-    this._headY = this.headY + this.yVelocity;
+    this.head.x = this.head.x + this.velocity.x;
+    this.head.y = this.head.y + this.velocity.y;
   }
 
   update() {
@@ -38,8 +36,8 @@ export class Snake {
   draw() {
     this.context.fillStyle = "orange";
     this.context.fillRect(
-      this._headX * TILE_COUNT,
-      this._headY * TILE_COUNT,
+      this.head.x * TILE_COUNT,
+      this.head.y * TILE_COUNT,
       tileSize(this.canvas),
       tileSize(this.canvas)
     );
@@ -48,24 +46,24 @@ export class Snake {
   move(direction: MoveDirection) {
     switch (direction) {
       case "up":
-        if (this.yVelocity === 1) break;
-        this.yVelocity = -1;
-        this.xVelocity = 0;
+        if (this.velocity.y === 1) break;
+        this.velocity.y = -1;
+        this.velocity.x = 0;
         break;
       case "down":
-        if (this.yVelocity === -1) break;
-        this.yVelocity = 1;
-        this.xVelocity = 0;
+        if (this.velocity.y === -1) break;
+        this.velocity.y = 1;
+        this.velocity.x = 0;
         break;
       case "left":
-        if (this.xVelocity === 1) break;
-        this.yVelocity = 0;
-        this.xVelocity = -1;
+        if (this.velocity.x === 1) break;
+        this.velocity.y = 0;
+        this.velocity.x = -1;
         break;
       case "right":
-        if (this.xVelocity === -1) break;
-        this.yVelocity = 0;
-        this.xVelocity = 1;
+        if (this.velocity.x === -1) break;
+        this.velocity.y = 0;
+        this.velocity.x = 1;
         break;
       default:
         throw new Error("Move direction not supported");
