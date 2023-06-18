@@ -1,7 +1,7 @@
 import { Food } from "./Food.js";
 import { InputManager } from "./InputManager.js";
 import { Snake } from "./Snake.js";
-import { SNAKE_SPEED } from "./const.js";
+import { SNAKE_SPEED, TILE_COUNT } from "./const.js";
 
 function createCanvas(): HTMLCanvasElement {
   const canvas = document.createElement("canvas");
@@ -28,7 +28,7 @@ if (!context) throw new Error("2d context missing");
 let lastRenderTime = 0;
 
 const food = new Food(canvas);
-const snake = new Snake(canvas, food);
+const snake = new Snake(canvas);
 const inputManager = new InputManager(snake);
 let gameOver = false;
 let requestId = 0;
@@ -50,8 +50,31 @@ requestId = window.requestAnimationFrame(gameLoop);
 inputManager.handleKeyboardEvents();
 
 function update() {
+  handleEat();
   snake.update();
   handleLoss(snake);
+}
+
+function handleEat() {
+  if (snake.eats(food)) {
+    snake.grow();
+    moveFood();
+  }
+}
+
+function moveFood() {
+  let randomFoodPosition = getRandomPosition();
+  while (snake.collidesWith(randomFoodPosition)) {
+    randomFoodPosition = getRandomPosition();
+  }
+  food.setPosition(randomFoodPosition);
+}
+
+function getRandomPosition() {
+  return {
+    x: Math.abs(Math.floor(Math.random() * TILE_COUNT) - 1),
+    y: Math.abs(Math.floor(Math.random() * TILE_COUNT) - 1),
+  };
 }
 
 function draw() {
@@ -68,7 +91,7 @@ function clearScreen() {
 }
 
 function handleLoss(snake: Snake) {
-  if (snake.hitWall() || snake.ranIntoItself()) {
+  if (snake.hitsWall() || snake.runsIntoItself()) {
     gameOver = true;
     if (confirm("You lost. Press OK to restart the game.")) {
       restartGame();

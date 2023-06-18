@@ -19,11 +19,9 @@ export class Snake {
   private readonly velocity: Velocity;
   private readonly context: CanvasRenderingContext2D;
   private readonly canvas: HTMLCanvasElement;
-  private readonly food: Food;
   private readonly body: Body;
 
-  constructor(canvas: HTMLCanvasElement, food: Food) {
-    this.food = food;
+  constructor(canvas: HTMLCanvasElement) {
     this.head = { x: 10, y: 10 };
     this.body = [
       { x: 8, y: 10 },
@@ -52,11 +50,10 @@ export class Snake {
   }
 
   update() {
-    this.ateFood();
     this.updatePosition();
   }
 
-  hitWall(): boolean {
+  hitsWall(): boolean {
     return (
       this.head.x > TILE_COUNT ||
       this.head.x < 0 ||
@@ -65,37 +62,26 @@ export class Snake {
     );
   }
 
-  ranIntoItself(): boolean {
+  runsIntoItself(): boolean {
     return this.body.some(
       (part) => part.x === this.head.x && part.y === this.head.y
     );
   }
 
-  private ateFood() {
-    if (this.head.x === this.food.x && this.head.y === this.food.y) {
-      for (let i = 0; i < SNAKE_GROWTH; i++) {
-        this.body.unshift({
-          x: this.body[0].x + this.velocity.x,
-          y: this.body[0].y + this.velocity.y,
-        });
-      }
-      // should probably be handled by the game manager
-      let randomFoodPosition = this.getRandomPosition();
-      while (this.collidesWith(randomFoodPosition)) {
-        randomFoodPosition = this.getRandomPosition();
-      }
-      this.food.setPosition(randomFoodPosition);
+  eats(food: Food): boolean {
+    return this.head.x === food.x && this.head.y === food.y;
+  }
+
+  grow() {
+    for (let i = 0; i < SNAKE_GROWTH; i++) {
+      this.body.unshift({
+        x: this.body[0].x + this.velocity.x,
+        y: this.body[0].y + this.velocity.y,
+      });
     }
   }
 
-  private getRandomPosition() {
-    return {
-      x: Math.abs(Math.floor(Math.random() * TILE_COUNT) - 1),
-      y: Math.abs(Math.floor(Math.random() * TILE_COUNT) - 1),
-    };
-  }
-
-  private collidesWith(position: Coordinates): boolean {
+  collidesWith(position: Coordinates): boolean {
     if (this.head.x === position.x && this.head.y === position.y) {
       return true;
     }
@@ -106,6 +92,7 @@ export class Snake {
     }
     return false;
   }
+
   draw() {
     this.context.fillStyle = "orange";
     this.context.fillRect(
