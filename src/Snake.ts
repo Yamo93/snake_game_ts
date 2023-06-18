@@ -52,8 +52,26 @@ export class Snake {
   }
 
   update() {
-    this.updatePosition();
     this.ateFood();
+    this.updatePosition();
+    this.lost();
+  }
+
+  private lost() {
+    // handled by game manager
+    const outOfBounds =
+      this.head.x > TILE_COUNT ||
+      this.head.x < 0 ||
+      this.head.y > TILE_COUNT ||
+      this.head.y < 0;
+    const ranIntoItself = this.body.some(
+      (part) => part.x === this.head.x && part.y === this.head.y
+    );
+    if (outOfBounds || ranIntoItself) {
+      if (confirm("You lost! Click OK to restart.")) {
+        window.location.reload();
+      }
+    }
   }
 
   private ateFood() {
@@ -123,6 +141,7 @@ export class Snake {
         break;
       case "left":
         if (this.velocity.x === 1) break;
+        if (this.velocity.x === 0 && this.velocity.y === 0) break;
         this.velocity.y = 0;
         this.velocity.x = -1;
         break;
