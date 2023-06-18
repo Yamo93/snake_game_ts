@@ -54,24 +54,21 @@ export class Snake {
   update() {
     this.ateFood();
     this.updatePosition();
-    this.lost();
   }
 
-  private lost() {
-    // handled by game manager
-    const outOfBounds =
+  hitWall(): boolean {
+    return (
       this.head.x > TILE_COUNT ||
       this.head.x < 0 ||
       this.head.y > TILE_COUNT ||
-      this.head.y < 0;
-    const ranIntoItself = this.body.some(
+      this.head.y < 0
+    );
+  }
+
+  ranIntoItself(): boolean {
+    return this.body.some(
       (part) => part.x === this.head.x && part.y === this.head.y
     );
-    if (outOfBounds || ranIntoItself) {
-      if (confirm("You lost! Click OK to restart.")) {
-        window.location.reload();
-      }
-    }
   }
 
   private ateFood() {
@@ -153,5 +150,14 @@ export class Snake {
       default:
         throw new Error("Move direction not supported");
     }
+  }
+
+  reset() {
+    this.head.x = 10;
+    this.head.y = 10;
+    this.body.splice(0, this.body.length);
+    this.body.push({ x: 8, y: 10 }, { x: 9, y: 10 });
+    this.velocity.x = 0;
+    this.velocity.y = 0;
   }
 }
