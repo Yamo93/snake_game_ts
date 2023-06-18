@@ -18,8 +18,8 @@ if (!context) throw new Error("2d context missing");
 
 let lastRenderTime = 0;
 
-const snake = new Snake(canvas);
 const food = new Food(canvas);
+const snake = new Snake(canvas, food);
 const inputManager = new InputManager(snake);
 
 function gameLoop(currentRenderTime: number) {
