@@ -48,18 +48,22 @@ export class Snake {
   move(direction: MoveDirection) {
     switch (direction) {
       case "up":
+        if (this.yVelocity === 1) break;
         this.yVelocity = -1;
         this.xVelocity = 0;
         break;
       case "down":
+        if (this.yVelocity === -1) break;
         this.yVelocity = 1;
         this.xVelocity = 0;
         break;
       case "left":
+        if (this.xVelocity === 1) break;
         this.yVelocity = 0;
         this.xVelocity = -1;
         break;
       case "right":
+        if (this.xVelocity === -1) break;
         this.yVelocity = 0;
         this.xVelocity = 1;
         break;
