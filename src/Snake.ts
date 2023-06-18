@@ -64,9 +64,33 @@ export class Snake {
           y: this.body[0].y + this.velocity.y,
         });
       }
+      // should probably be handled by the game manager
+      let randomFoodPosition = this.getRandomPosition();
+      while (this.collidesWith(randomFoodPosition)) {
+        randomFoodPosition = this.getRandomPosition();
+      }
+      this.food.setPosition(randomFoodPosition);
     }
   }
 
+  private getRandomPosition() {
+    return {
+      x: Math.abs(Math.floor(Math.random() * TILE_COUNT) - 1),
+      y: Math.abs(Math.floor(Math.random() * TILE_COUNT) - 1),
+    };
+  }
+
+  private collidesWith(position: Coordinates): boolean {
+    if (this.head.x === position.x && this.head.y === position.y) {
+      return true;
+    }
+    if (
+      this.body.some((part) => part.x === position.x && part.y === position.y)
+    ) {
+      return true;
+    }
+    return false;
+  }
   draw() {
     this.context.fillStyle = "orange";
     this.context.fillRect(

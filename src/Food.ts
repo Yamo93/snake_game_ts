@@ -31,4 +31,9 @@ export class Food {
   get y() {
     return this._y;
   }
+
+  setPosition(randomFoodPosition: { x: number; y: number }) {
+    this._x = randomFoodPosition.x;
+    this._y = randomFoodPosition.y;
+  }
 }
