@@ -1,10 +1,7 @@
 import { Snake } from "./Snake.js";
 
 export class InputManager {
-  private readonly snake: Snake;
-  constructor(snake: Snake) {
-    this.snake = snake;
-  }
+  constructor(private readonly snake: Snake) {}
 
   handleKeyboardEvents() {
     window.addEventListener("keydown", (event) => {
