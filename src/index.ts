@@ -3,23 +3,32 @@ import { GameManager } from "./GameManager.js";
 import { InputManager } from "./InputManager.js";
 import { Snake } from "./Snake.js";
 
-function createCanvas(): HTMLCanvasElement {
+function createHeading(text: string): HTMLHeadingElement {
+  const heading = document.createElement("h1");
+  heading.textContent = text;
+  return heading;
+}
+
+function createCanvas(width: number, height: number): HTMLCanvasElement {
   const canvas = document.createElement("canvas");
-  canvas.setAttribute("width", "400");
-  canvas.setAttribute("height", "400");
-  document.body.append(canvas);
+  canvas.setAttribute("width", width.toString());
+  canvas.setAttribute("height", height.toString());
   return canvas;
 }
 
-function createRestartButton(): HTMLButtonElement {
-  const restartButton = document.createElement("button");
-  restartButton.textContent = "Restart game";
-  document.body.append(restartButton);
-  return restartButton;
+function createButton(label: string): HTMLButtonElement {
+  const button = document.createElement("button");
+  button.textContent = label;
+  return button;
 }
 
-const canvas = createCanvas();
-const restartButton = createRestartButton();
+const topHeading = createHeading("Snake Game");
+const canvas = createCanvas(400, 400);
+const restartButton = createButton("Restart game");
+
+document.body.append(topHeading);
+document.body.append(canvas);
+document.body.append(restartButton);
 
 const context = canvas.getContext("2d");
 if (!context) throw new Error("2d context missing");
