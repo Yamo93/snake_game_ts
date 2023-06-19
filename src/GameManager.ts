@@ -8,7 +8,8 @@ export class GameManager {
     private readonly food: Food,
     private readonly canvas: HTMLCanvasElement,
     private lastRenderTime = 0,
-    private gameOver = false
+    private gameOver = false,
+    private score = 0
   ) {}
 
   gameLoop(currentRenderTime: number) {
@@ -34,12 +35,14 @@ export class GameManager {
     this.clearScreen();
     this.snake.draw();
     this.food.draw();
+    this.drawScore();
   }
 
   private handleEat() {
     if (this.snake.eats(this.food)) {
       this.snake.grow();
       this.moveFood();
+      this.score++;
     }
   }
 
@@ -72,6 +75,7 @@ export class GameManager {
     this.gameOver = false;
     window.requestAnimationFrame((time) => this.gameLoop(time));
     this.lastRenderTime = 0;
+    this.score = 0;
     this.snake.reset();
   }
 
@@ -80,5 +84,12 @@ export class GameManager {
     if (!context) throw new Error("2d context missing");
     context.fillStyle = "black";
     context.fillRect(0, 0, this.canvas.width, this.canvas.height);
+  }
+
+  private drawScore() {
+    const context = this.canvas.getContext("2d");
+    if (!context) throw new Error("2d context missing");
+    context.fillStyle = "white";
+    context.fillText("Score: " + this.score, 350, 15);
   }
 }
